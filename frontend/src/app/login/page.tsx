@@ -2,9 +2,16 @@
 
 import React, { useState } from 'react';
 import { useTheme } from '@/context/page';
-import Image from "next/image";
 import { FaSun, FaMoon, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
+import { FormEvent } from 'react';
+import { loginUser } from '@/services/authentication/authenticationService';
+import WarningAlert from '@/components/alert/warningAlert';
+import SuccessAlert from '@/components/alert/successAlert';
+import ErrorAlert from '@/components/alert/errorAlert';
+import { setLogin } from '@/store/redux/auth';
+import { useDispatch } from 'react-redux';
+import { store } from '@/store/redux/auth/store';
 
 export default function Login() {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -13,10 +20,62 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const dispatch = useDispatch();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    alert('Login has been successfull');
+  const handleLogin = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+  
+    if (!email || !password) {
+      WarningAlert({ 
+        title: 'Validation Warning',
+        message: 'Please fill in all required fields',
+      });
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
+      const response = await loginUser({ email, password });
+  
+      console.log('Login API Response:', response);
+  
+      if (response.status === 200) {
+        const userData = response.data.data;
+        console.log('User Data to be stored:', userData);
+  
+        // Dispatch login action with the correct structure
+        dispatch(setLogin({
+          user: userData,
+          token: userData.api_token,
+        }));
+  
+        // Verify the state was updated
+        const currentState = store.getState();
+        console.log('Redux State after login:', currentState);
+  
+        SuccessAlert({ 
+          title: 'Login Successful', 
+          message: response.data.message || 'Welcome back!',
+        });
+  
+        setSuccessMessage('Sign in successful! Redirecting...');
+        
+        setTimeout(() => {
+          // navigate('/dashboard');
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error('Login Error:', error);
+      ErrorAlert({ 
+        title: 'Login Failed',
+        message: error.response?.data?.message || 'An error occurred during login',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
