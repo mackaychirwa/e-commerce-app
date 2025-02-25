@@ -1,6 +1,7 @@
+import { ErrorAlertType } from '@/types/ErrorAlertType';
 import Swal from 'sweetalert2';
 
-const ErrorAlert = ({ title, message }) => {
+const ErrorAlert = ({ title, message }: ErrorAlertType) => {
   return Swal.fire({
     title: title,
     text: message,

@@ -47,7 +47,13 @@ const CategoryModel =  (sequelize) => {
       paranoid: true,
     }
   );
-
+ // Define the reverse relationship (Category has many Products)
+  Category.associate = (models) => {
+    Category.hasMany(models.Product, {
+      foreignKey: 'category_id',
+      as: 'products', 
+    });
+  };
   return Category;
 };
 export default CategoryModel;

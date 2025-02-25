@@ -1,11 +1,22 @@
 import { sequelize } from "../../config/database.js";
+import CategoryModel from "../../models/Category/Category.js";
 import ProductModel from "../../models/Product/Product.js";
 
 const Product = ProductModel(sequelize);
+const Category = CategoryModel(sequelize);
+// Initialize associations
+Product.associate({ Category });
+Category.associate({ Product });
 
 export const getProducts = async () => {
     try {
-        const products = await Product.findAll();
+        const products = await Product.findAll({
+            include: [{
+                model: Category,
+                as: 'category', // Make sure this matches the 'as' defined in the association
+                attributes: ['id', 'name'] // Optionally specify which category fields to include
+            }]
+        });
         return products;
     } catch (error) {
         console.error("Failed to retrieve all products:", error);
@@ -15,7 +26,7 @@ export const getProducts = async () => {
 
 export const createProduct =  async (image, name, description, unit_cost, qty, category_id) => {
      try {
-            const existingProduct = await  Product.findOne({ where: { name } });
+            const existingProduct = await  Product.findOne({ where: { name: name } });
             if (existingProduct) return { success: false, message: "This product already exists" };
             
             const product = await Product.create({

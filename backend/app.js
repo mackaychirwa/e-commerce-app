@@ -5,15 +5,16 @@ import { connectDB } from './src/config/database.js';
 import allRoutes from "./src/routes/api.mjs"
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import YAML from "yamljs";
 const app = express();
-app.use(cors({
-    origin: "http://localhost:3000", // Change this to your frontend URL
-    credentials: true,  // ✅ Allows cookies to be sent
-  }));
+
 const PORT = process.env.PORT || 3000 
 // Set up global logger
 global.logger = logger;
+
+app.use(cors({
+  origin: "http://localhost:3001", 
+  credentials: true,  
+}));
 app.use(express.json());
 
 

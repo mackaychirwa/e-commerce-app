@@ -4,7 +4,7 @@ import { AiOutlineShoppingCart, AiOutlineHeart } from "react-icons/ai";
 import Image from "next/image";
 import { useState } from "react";
 import TopNavBar from "@/components/navigation/topNavBar";
-import { useTheme } from '@/context/page';  // Import useTheme
+import { useTheme } from '@/hooks/page';  // Import useTheme
 import Link from "next/link";
 
 export default function Home() {

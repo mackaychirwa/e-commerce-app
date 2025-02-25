@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useTheme } from '@/context/page';
+import { useTheme } from '@/hooks/page';
 import Image from "next/image";
 import { FaSun, FaMoon, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';

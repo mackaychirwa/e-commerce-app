@@ -2,8 +2,8 @@ import { createProduct, deleteProduct, getProductById, getProducts, updateProduc
 
 export const index = async (req, res) => {
     try {
-        const product = await getProducts(image, name, description, unit_cost, qty, category_id);
-        res.status(200).json(product);
+        const product = await getProducts();
+        res.json(product);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -11,11 +11,12 @@ export const index = async (req, res) => {
 
 export const store = async (req, res) => {
     try {
-        const { image_url, name, description, unit_cost, qty, category_id } = req.body;
-        const product = await createProduct(image_url, name, description, unit_cost, qty, category_id);
-        res.status(201).json(product);
+        const { name, description, unit_cost, qty, category_id } = req.body;
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+        const product = await createProduct(imageUrl, name, description, unit_cost, qty, category_id);
+        res.json(product);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.json({ error: error.message });
     }
 }
 export const show = async (req, res) => {

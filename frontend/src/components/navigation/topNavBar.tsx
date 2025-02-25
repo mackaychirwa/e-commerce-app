@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Button from "../button/button";
 import Link from 'next/link';
 import { FaSun, FaMoon } from 'react-icons/fa'; 
-import { useTheme } from '@/context/page';
+import { useTheme } from '@/hooks/page';
 
 interface TopNavBarProps {
   wishlistCount: number[];

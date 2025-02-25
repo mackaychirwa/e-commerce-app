@@ -27,9 +27,9 @@ interface UserData {
 //   }
 // };
 
-const loginUser = async (userData: UserData): Promise<any> => { // Promise<any> could be more specific if you know the structure
+const loginUser = async (userData: UserData) => {
   try {
-    const response = await axiosInstance.post('/login', {
+    const response = await axiosInstance.post('/auth/login', {
       email: userData.email,
       password: userData.password,
     });

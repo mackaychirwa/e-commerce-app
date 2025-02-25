@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useTheme } from '@/context/page';
+import { useTheme } from '@/hooks/page';
 import TopNavBar from '@/components/navigation/topNavBar';
 
 const ProductDetailPage = () => {

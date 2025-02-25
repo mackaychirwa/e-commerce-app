@@ -8,17 +8,13 @@ const User = initUserModel(sequelize);
 export const authenticateUser = async (req, res, next) => {
   let refreshToken;
   const cookieToken = req.cookies?.refreshToken;
-  console.log('cookieToken:', cookieToken);
 
   const authHeader = req.headers['authorization'];
-  console.log('authHeader:', authHeader);
 
   if (cookieToken) {
     refreshToken = cookieToken;
-    console.log('Using cookie refresh token:', refreshToken);
   } else if (authHeader && authHeader.startsWith("Bearer")) {
     refreshToken = authHeader.split(" ")[1];
-    console.log('Using header refresh token:', refreshToken);
   }
 
   if (!refreshToken || refreshToken === "null") {
@@ -28,11 +24,9 @@ export const authenticateUser = async (req, res, next) => {
   try {
    
     req.user = authHeader;
-    console.log('Request user:', req.user);
 
     next();
   } catch (error) {
-    console.log('JWT verification error:', error);
 
     return next(APIError.Unauthenticated("Invalid authentication"));
   }

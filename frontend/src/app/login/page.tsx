@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useTheme } from '@/context/page';
+import { useTheme } from '@/hooks/page';
 import { FaSun, FaMoon, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
 import { FormEvent } from 'react';
@@ -9,9 +9,9 @@ import { loginUser } from '@/services/authentication/authenticationService';
 import WarningAlert from '@/components/alert/warningAlert';
 import SuccessAlert from '@/components/alert/successAlert';
 import ErrorAlert from '@/components/alert/errorAlert';
-import { setLogin } from '@/store/redux/auth';
 import { useDispatch } from 'react-redux';
 import { store } from '@/store/redux/auth/store';
+import { setLogin } from '@/store/redux/auth/userSlice';
 
 export default function Login() {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -40,16 +40,16 @@ export default function Login() {
     try {
       const response = await loginUser({ email, password });
   
-      console.log('Login API Response:', response);
+      console.log('Response:', response);
   
       if (response.status === 200) {
-        const userData = response.data.data;
-        console.log('User Data to be stored:', userData);
+        const userResponse = response.data;
+        console.log('User Data to be stored:', userResponse);
   
         // Dispatch login action with the correct structure
         dispatch(setLogin({
-          user: userData,
-          token: userData.api_token,
+          user: userResponse.userData,
+          token: userResponse.token,
         }));
   
         // Verify the state was updated
@@ -60,18 +60,16 @@ export default function Login() {
           title: 'Login Successful', 
           message: response.data.message || 'Welcome back!',
         });
-  
-        setSuccessMessage('Sign in successful! Redirecting...');
         
-        setTimeout(() => {
-          // navigate('/dashboard');
-        }, 2000);
+        // setTimeout(() => {
+        //   // navigate('/dashboard');
+        // }, 2000);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Login Error:', error);
       ErrorAlert({ 
         title: 'Login Failed',
-        message: error.response?.data?.message || 'An error occurred during login',
+        message:'An error occurred during login',
       });
     } finally {
       setLoading(false);

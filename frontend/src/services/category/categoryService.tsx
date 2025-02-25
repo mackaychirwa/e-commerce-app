@@ -13,15 +13,15 @@ interface Category {
     code: string;
   }
   
-  const getCategories = async (token: string): Promise<Category[]> => {
+  const getCategories = async (token: string) => {
     try {
-      const response: AxiosResponse<Category[]> = await axiosInstance.get('/category', {
+      const response = await axiosInstance.get('/category', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error fetching categories:', error);
       throw error;
