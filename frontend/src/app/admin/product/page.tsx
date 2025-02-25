@@ -134,7 +134,7 @@ const Product: React.FC = () => {
     
         setIsModalOpen(false);
     };
-    
+    console.log(category)
     const handleFileUpload = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
 
@@ -274,7 +274,7 @@ const Product: React.FC = () => {
                 >
                 <option value="">Select Category</option>
                 {category.map((cat: any) => (
-                    <option key={cat.category_id} value={cat.category_id}>
+                    <option key={cat.id} value={cat.id}>
                     {cat?.name}
                     </option>
                 ))}

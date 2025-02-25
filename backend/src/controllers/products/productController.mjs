@@ -14,6 +14,7 @@ export const store = async (req, res) => {
         const { name, description, unit_cost, qty, category_id } = req.body;
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
         const product = await createProduct(imageUrl, name, description, unit_cost, qty, category_id);
+
         res.json(product);
     } catch (error) {
         res.json({ error: error.message });

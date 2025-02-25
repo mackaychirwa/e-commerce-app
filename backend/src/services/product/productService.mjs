@@ -26,8 +26,9 @@ export const getProducts = async () => {
 
 export const createProduct =  async (image, name, description, unit_cost, qty, category_id) => {
      try {
-            const existingProduct = await  Product.findOne({ where: { name: name } });
-            if (existingProduct) return { success: false, message: "This product already exists" };
+
+            // const existingProduct = await  Product.findOne({ where: { name: name } });
+            // if (existingProduct) return { success: false, message: "This product already exists" };
             
             const product = await Product.create({
                 image: image, 
