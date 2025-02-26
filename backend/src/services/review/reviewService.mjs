@@ -1,14 +1,35 @@
 import { sequelize } from "../../config/database.js";
+import ProductModel from "../../models/Product/Product.js";
 import ReviewModel from "../../models/Review/Review.js";
+import initUserModel from "../../models/User/user.js";
 
 const Review = ReviewModel(sequelize);
+const User = initUserModel(sequelize);
+const Product = ProductModel(sequelize);
+
+
+// Initialize associations
+Review.associate({ User, Product });
 
 export const getReviews = async () => {
     try {
-        const review = await Review.findAll();
+        const review = await Review.findAll({
+            include: [
+                {
+                    model: User,
+                    as: "user", 
+                    attributes: ["id", "username"], 
+                },
+                {
+                    model: Product,
+                    as: "product",
+                    attributes: ["id", "name"], 
+                }
+            ],
+        });
         return review;
     } catch (error) {
-        console.error("Failed to retrieve all roles:", error);
+        console.error("Failed to retrieve all review:", error);
         return { success: false, message: "Server error:", error };
     }
 }
@@ -16,7 +37,7 @@ export const getReviews = async () => {
 export const createReview =  async (name, description) => {
      try {
             const existingReview = await  Review.findOne({ where: { name } });
-            if (existingReview) return { success: false, message: "This Role already exists" };
+            if (existingReview) return { success: false, message: "This review already exists" };
             
             const review = await Review.create({
                 name: name,

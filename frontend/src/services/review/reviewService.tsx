@@ -4,7 +4,7 @@ import axiosInstance from '../api';
 
   const getReviews = async (token: string) => {
     try {
-      const response = await axiosInstance.get('/Review', {
+      const response = await axiosInstance.get('/review', {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -20,7 +20,7 @@ import axiosInstance from '../api';
 const createReview = async (reviewData: Omit<Review, "id">, token: string) => { 
   try {
     const response = await axiosInstance.post(
-      "/category",
+      "/review",
       {
         user_id: reviewData.user_id,
         product_id: reviewData.product_id,
@@ -91,6 +91,31 @@ const deleteReview = async (id: number, token: string) => {
       throw error;
     }
   };
+  const updateReviewReply = async (id: number,  reviewData: Review,   token: string ) => {
+    try {
+      console.log(reviewData);
+
+      const response = await axiosInstance.put(
+        `/review/${id}`,
+        {
+          user_id: reviewData.user_id,
+          product_id: reviewData.product_id,
+          rating: reviewData.rating,
+          comment: reviewData.comment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error updating review:', error);
+      throw error;
+    }
+  };
   
 
-export { getReviews, getReview, createReview, updateReview, deleteReview };
+export { getReviews, getReview, createReview, updateReview, deleteReview, updateReviewReply };

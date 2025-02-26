@@ -4,5 +4,6 @@ export interface Review {
     product_id: number;
     rating?: number;
     comment?: string;
+    review_state?: number;
   }
  

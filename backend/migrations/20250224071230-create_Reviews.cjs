@@ -40,6 +40,7 @@ module.exports = {
           type: DataTypes.TEXT,
           allowNull: false,
       },
+      
     });
   },
 
