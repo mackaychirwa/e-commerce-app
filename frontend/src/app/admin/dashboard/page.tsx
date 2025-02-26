@@ -2,14 +2,64 @@
 
 import MainComponent from '@/components/mainComponent';
 import { useTheme } from '@/hooks/page';
-import React from 'react';
+import { getCategories } from '@/services/category/categoryService';
+import { getProducts } from '@/services/product/productService';
+import { ProductType } from '@/types/productType';
+import React, { useEffect, useState } from 'react';
 import { FiUsers, FiFolder, FiFile, FiHardDrive } from "react-icons/fi";
+import { useSelector } from 'react-redux';
 // Static data for document uploads per month
 
 export default function Dashboard() {
   const { isDarkMode } = useTheme();
-//   const userDomain = useSelector((state) => state.auth.domain) || "";
-  
+const [loading, setLoading] = useState(false);
+const { token } = useSelector((state: any) => state);
+const [category, setCategory] = useState([]);
+    // const [product, setProduct] = useState([]);
+const [product, setProduct] = useState<ProductType[]>([]);
+const fetchCategory = async () => {
+  setLoading(true);
+  try {
+      const response = await getCategories(token);
+      console.log('client data', response);
+
+      if (response.status === 200) {
+          const data = response.data;
+          setCategory(data.category);
+      } else {
+          console.error('Failed to retrieve client data', response);
+      }
+  } catch (error) {
+      console.error('Error retrieving client data:', error);
+  } finally {
+      setLoading(false);
+  }
+};
+
+// Fetch clients data from the backend
+const fetchProducts = async () => {
+  setLoading(true);
+  try {
+      const response = await getProducts(token);
+      console.log('getProducts', response);
+
+      if (response.status === 200) {
+          const data = response.data;
+          setProduct(data);
+      } else {
+          console.error('Failed to retrieve client data', response);
+      }
+  } catch (error) {
+      console.error('Error retrieving client data:', error);
+  } finally {
+      setLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchProducts();
+  fetchCategory();
+}, []);
   
   // Dashboard cards configuration
   const cards = [
@@ -20,13 +70,13 @@ export default function Dashboard() {
     },
     {
       icon: <FiFolder className="text-2xl text-[var(--primary)]" />,
-      title: "Folders",
-      count:  0,
+      title: "Categories",
+      count:  category.length ??0,
     },
     {
       icon: <FiFile className="text-2xl text-[var(--primary)]" />,
-      title: "Documents",
-      count: 0,
+      title: "Products",
+      count: product.length ?? 0,
     },
     {
       icon: <FiHardDrive className="text-2xl text-[var(--primary)]" />,

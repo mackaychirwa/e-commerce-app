@@ -5,15 +5,16 @@ import SampleTable from '@/components/dataTable/datatable';
 import MainComponent from '@/components/mainComponent';
 import { useTheme } from '@/hooks/page';
 import React, { useState, ChangeEvent, useEffect } from 'react';
-import { getCategories } from '@/services/category/categoryService';
+import { createCategory, deleteCategory, getCategories } from '@/services/category/categoryService';
 import { useSelector } from 'react-redux';
 
 // Define type for new category data
-interface NewCategory {
-  categoryName: string;
-  productCount: string;
+interface Category {
+  id?: number;  // Make 'id' optional
+  name: string;
   description: string;
 }
+
 
 // Static data for product categories
 const columns = [
@@ -28,16 +29,7 @@ const columns = [
     title: 'Description',
     dataIndex: 'description', // This links to the data
   },
-  { 
-    key: 'actions', 
-    title: 'Actions', 
-    render: (item: any) => (
-      <div className="text-sm flex gap-2">
-        <button className="text-blue-500 hover:text-blue-700">Edit</button>
-        <button className="text-red-500 hover:text-red-700">Delete</button>
-      </div>
-    )
-  }
+ 
 ];
 
 
@@ -51,30 +43,87 @@ const Dashboard: React.FC = () => {
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [category, setCategory] = useState([]);
-  const [newCategory, setNewCategory] = useState<NewCategory>({
-    categoryName: '',
-    productCount: '',
+  const [category, setCategory] = useState<Category[]>([]);
+  const [newCategory, setNewCategory] = useState<Omit<Category, 'id'>>({
+    name: '',
     description: ''
   });
 
-  // Handle adding a new category
-  const handleAddCategory = () => {
-    console.log("Adding new category...");
-    setIsModalOpen(true); // Open the modal to add a category
-  };
 
-  // Handle modal form input changes
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setNewCategory((prev) => ({ ...prev, [name]: value }));
-  };
 
-  // Handle form submission
-  const handleSubmit = () => {
-    console.log("New category added:", newCategory);
-    setIsModalOpen(false); // Close modal after adding the category
-  };
+    // Handle adding a new category
+    const handleAddCategory = () => {
+      console.log("Adding new category...");
+      setIsModalOpen(true); // Open the modal to add a category
+    };
+
+    // Handle modal form input changes
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setNewCategory((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // Handle form submission
+      const handleSubmit = async () => {
+        console.log("New category added:", newCategory);
+        try {
+          setLoading(true);
+          const response = await createCategory(newCategory, token);
+          console.log(" Send `formData`", response);
+          if (response.status === 201) {
+            setCategory((prevCategory) => [
+              ...prevCategory,
+              { ...newCategory, id: prevCategory.length + 1 },
+            ]);
+          }
+        } catch (error) {
+          console.error("Upload failed:", error);
+          alert("Upload failed. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+        setIsModalOpen(false);
+      };
+      const handleDelete = async () => {
+        console.log("New category added:", newCategory);
+        try {
+          setLoading(true);
+          const response = await deleteCategory(newCategory, token);
+          console.log(" Send `formData`", response);
+          if (response.status === 201) {
+            setCategory((prevCategory) => [
+              ...prevCategory,
+              { ...newCategory, id: prevCategory.length - 1 },
+            ]);
+          }
+        } catch (error) {
+          console.error("Upload failed:", error);
+          alert("Upload failed. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+        setIsModalOpen(false);
+      };
+      const handleEdit = async () => {
+        console.log("New category added:", newCategory);
+        try {
+          setLoading(true);
+          const response = await createCategory(newCategory, token);
+          console.log(" Send `formData`", response);
+          if (response.status === 201) {
+            setCategory((prevCategory) => [
+              ...prevCategory,
+              { ...newCategory, id: prevCategory.length + 1 },
+            ]);
+          }
+        } catch (error) {
+          console.error("Upload failed:", error);
+          alert("Upload failed. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+        setIsModalOpen(false);
+      };
       // Fetch clients data from the backend
       const fetchClients = async () => {
         setLoading(true);
@@ -119,6 +168,7 @@ const Dashboard: React.FC = () => {
           label="Categories" 
           loading={loading} 
           columnNumber="5" 
+          token={token}
         />
       </div>
 
@@ -134,8 +184,8 @@ const Dashboard: React.FC = () => {
               <label className="block text-sm font-medium">Category Name</label>
               <input
                 type="text"
-                name="categoryName"
-                value={newCategory.categoryName}
+                name="name"
+                value={newCategory.name}
                 onChange={handleInputChange}
                 className={`w-full px-3 py-2 ${isDarkMode ? 'bg-[#2f3542] text-white' : 'bg-gray-50 text-gray-900'} border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-red-500`}
 

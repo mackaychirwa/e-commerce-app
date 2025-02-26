@@ -1,4 +1,4 @@
-import { FiHome, FiFileText, FiShoppingCart, FiShield, FiArchive, FiClock, FiUserX } from "react-icons/fi";
+import { FiHome, FiFileText, FiShoppingCart, FiShield, FiArchive, FiClock, FiUserX, FiMessageSquare  } from "react-icons/fi";
 import { FaFolderOpen } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
 import NavItem from './navItem';
@@ -7,6 +7,7 @@ import { useTheme } from '@/hooks/page';
 // Define route paths in a centralized configuration
 const ROUTES = {
   dashboard: "/admin/dashboard",
+  review: "/admin/review",
   roles: "/admin/roles",
   products: "/admin/product",
   category: "/admin/category",
@@ -41,6 +42,7 @@ const Sidebar = ({ collapsed }) => {
         
         <div className="space-y-1">
           <NavItem text="Dashboard" icon={<FiHome />} link={ROUTES.dashboard} active={location.pathname === ROUTES.dashboard} collapsed={collapsed} />
+          <NavItem text="Review" icon={<FiMessageSquare />} link={ROUTES.review} active={location.pathname === ROUTES.review} collapsed={collapsed} />
         </div>
 
         {/* Product Management Section */}

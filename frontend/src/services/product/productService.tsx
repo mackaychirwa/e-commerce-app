@@ -1,5 +1,4 @@
 import axiosInstance from '../api';
-import { AxiosResponse } from 'axios';
 
 interface Product {
     id: number;
@@ -30,7 +29,7 @@ interface Product {
 
         for (const [key, value] of formData.entries()) {
           console.log(key, value);
-      }
+        }
         const response = await axiosInstance.post(
             "/product",
             formData,  
@@ -61,6 +60,8 @@ const getProduct = async (id: string) => {
 
 const updateProduct = async (id: number,  productData: Product,   token: string ) => {
     try {
+      console.log(productData);
+
       const response = await axiosInstance.put(
         `/product/${id}`,
         {
@@ -78,7 +79,7 @@ const updateProduct = async (id: number,  productData: Product,   token: string 
           },
         }
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error updating product:', error);
       throw error;
@@ -86,7 +87,7 @@ const updateProduct = async (id: number,  productData: Product,   token: string 
   };
   
 
-const deleteProduct = async (id: number, token: string): Promise<void> => {
+const deleteProduct = async (id: number, token: string) => {
     try {
       await axiosInstance.delete(`/product/${id}`, {
         headers: {

@@ -13,6 +13,7 @@ export const store = async (req, res) => {
     try {
         const { name, description, unit_cost, qty, category_id } = req.body;
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+        const imageSize = req.file.size;
         const product = await createProduct(imageUrl, name, description, unit_cost, qty, category_id);
 
         res.json(product);

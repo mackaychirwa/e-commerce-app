@@ -49,34 +49,21 @@ const columns = [
     title: 'Description',
     dataIndex: 'description', 
   },
-  { 
-    key: 'actions', 
-    title: 'Actions', 
-    render: (item: any) => (
-      <div className="text-sm flex gap-2">
-        <button className="text-blue-500 hover:text-blue-700">Edit</button>
-        <button className="text-red-500 hover:text-red-700">Delete</button>
-      </div>
-    )
-  }
+
 ];
 
 
 
 const Product= () => {
-  // const Product: React.FC = () => {
     const { isDarkMode } = useTheme();
 
-    // Mock loading state for table
     const [loading, setLoading] = useState(false);
     const { token } = useSelector((state: any) => state);
     const [selectedFolder, setSelectedFolder] = useState("");
 
-    // Modal state
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [category, setCategory] = useState([]);
     // const [product, setProduct] = useState([]);
-    // const [product, setProduct] = useState<ProductType[]>([]);
     const [product, setProduct] = useState<ProductType[]>([]);
     const [uploadedFiles, setUploadedFiles] = useState(0);
     const [files, setFiles] = useState([]); 
@@ -121,7 +108,7 @@ const Product= () => {
         const formData = new FormData();
     
         files.forEach((file) => {
-            formData.append("image", file);  // Append files properly
+            formData.append("image", file); 
         });
     
         formData.append("path", selectedFolder);
@@ -136,7 +123,7 @@ const Product= () => {
         try {
             setLoading(true);
             const response = await createProduct(formData, token);
-            console.log(" ✅ Send `formData`", response);
+            console.log("Send `formData`", response);
             if(response.status == 200)
             {
        
@@ -244,6 +231,8 @@ const Product= () => {
           label="Products" 
           loading={loading} 
           columnNumber="5" 
+          token={token}
+          category={category}
         />
       </div>
 
