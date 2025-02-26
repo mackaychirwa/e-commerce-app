@@ -85,6 +85,7 @@ const Dashboard: React.FC = () => {
             if (response.status === 200) {
                 const data = response.data;
                 setCategory(data.category);
+                
                 sessionStorage.setItem('clientsData', JSON.stringify(data));
             } else {
                 console.error('Failed to retrieve client data', response);

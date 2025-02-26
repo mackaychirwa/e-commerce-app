@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog } from '@headlessui/react';
+import { Dialog, DialogTitle } from '@headlessui/react';
 import MainComponent from '@/components/mainComponent';
 import { useTheme } from '@/hooks/page';
 import React, { useState, ChangeEvent, useEffect } from 'react';
@@ -10,12 +10,15 @@ import { getCategories } from '@/services/category/categoryService';
 import ProductTable from '@/components/dataTable/productTable';
 
 // Define type for new product data
-interface NewProduct {
-    name: string;
-    qty?: number;
-    description: string;
-    unit_cost?: number;
-    category_id?: number;
+
+interface ProductType {
+  id: number;
+  name: string;
+  description: string;
+  unit_cost: string;
+  qty: number;
+  category_id: number;
+  imageUrl?: string;
 }
 
 // Static data for product
@@ -60,7 +63,8 @@ const columns = [
 
 
 
-const Product: React.FC = () => {
+const Product= () => {
+  // const Product: React.FC = () => {
     const { isDarkMode } = useTheme();
 
     // Mock loading state for table
@@ -71,16 +75,26 @@ const Product: React.FC = () => {
     // Modal state
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [category, setCategory] = useState([]);
-    const [product, setProduct] = useState([]);
+    // const [product, setProduct] = useState([]);
+    // const [product, setProduct] = useState<ProductType[]>([]);
+    const [product, setProduct] = useState<ProductType[]>([]);
     const [uploadedFiles, setUploadedFiles] = useState(0);
     const [files, setFiles] = useState([]); 
-    const [newProduct, setNewProduct] = useState({
-        name: '',
-        qty: '',
-        description: '',
-        unit_cost: '',
-        category_id: ''
+    const [newProduct, setNewProduct] = useState<Omit<ProductType, 'id'>>({
+      name: '',
+      description: '',
+      unit_cost: '',
+      qty: 0,
+      category_id: 0,
+      imageUrl: '',
     });
+    // const [newProduct, setNewProduct] = useState({
+    //     name: '',
+    //     qty: '',
+    //     description: '',
+    //     unit_cost: '',
+    //     category_id: ''
+    // });
     
     // Handle adding a new Product
     const handleAddProduct = () => {
@@ -123,8 +137,15 @@ const Product: React.FC = () => {
             setLoading(true);
             const response = await createProduct(formData, token);
             console.log(" ✅ Send `formData`", response);
-    
-            setUploadedFiles(files.length); 
+            if(response.status == 200)
+            {
+       
+              setProduct((prevProduct) => [
+                ...prevProduct,
+                { ...newProduct, id: product.length + 1 },
+              ]);
+              setUploadedFiles(files.length); 
+            }
         } catch (error) {
             console.error("Upload failed:", error);
             alert("Upload failed. Please try again.");
@@ -229,7 +250,7 @@ const Product: React.FC = () => {
       {/* Modal */}
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         
-        <Dialog.Title 
+        <DialogTitle 
           className={`fixed top-20 left-1/2 transform -translate-x-1/2 w-96 p-4 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}
         >
           <h3 className="text-xl font-semibold">Add New Product</h3>
@@ -292,7 +313,7 @@ const Product: React.FC = () => {
             </div>
             {/* File Upload Dropzone */}
             <div className="drop-box-container mt-3 mb-3">
-                <label
+              <label
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600"
                 >
@@ -341,7 +362,7 @@ const Product: React.FC = () => {
               </button>
             </div>
           </form>
-        </Dialog.Title>
+        </DialogTitle>
       </Dialog>
     </MainComponent>
   );

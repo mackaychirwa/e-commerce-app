@@ -31,7 +31,7 @@ export const createProduct =  async (image, name, description, unit_cost, qty, c
             // if (existingProduct) return { success: false, message: "This product already exists" };
             
             const product = await Product.create({
-                image: image, 
+                imageUrl: image, 
                 name: name,
                 description: description,
                 unit_cost: unit_cost,
