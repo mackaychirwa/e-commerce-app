@@ -1,4 +1,4 @@
-import { createReview, deleteReview, getReviewById, getReviews, updateReview } from "../../services/review/reviewService.mjs";
+import { createReview, deleteReview, getReviewById, getReviews, updateReview, replyToReview } from "../../services/review/reviewService.mjs";
 
 export const index = async (req, res) => {
     try {
@@ -11,8 +11,11 @@ export const index = async (req, res) => {
 
 export const store = async (req, res) => {
     try {
-        const { name, description } = req.body;
-        const review = await createReview(name, description);
+
+        const { user_id, product_id, rating, comment } = req.body;
+        const review = await createReview(user_id, product_id, rating, comment);
+        console.log(review)
+        
         res.json(review);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -50,8 +53,8 @@ export const destroy = async (req, res) => {
 }
 export const replyReview = async (req, res) => {
     try{
-        const {review_id, reply } = req.body;
-        const replyReview = await replyReview(review_id, reply);
+        const {user_id, review_id, reply } = req.body;
+        const replyReview = await replyToReview(user_id, review_id, reply);
         res.json(replyReview);
     } catch (error) {
         res.status(400).json({ error: error.message });

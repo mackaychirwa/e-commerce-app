@@ -6,7 +6,17 @@ interface UserData {
   password: string;
   [key: string]: unknown;
 }
-
+interface UserRegisterData {
+  email: string;
+  password: string;
+  username: string;
+  phoneNumber: number;
+  address: string;
+  city: string;
+  country: string;
+  role_id: number;
+  
+}
 // const getUser = async (id: string): Promise<unknown> => {
 //   try {
 //     const response = await axiosInstance.get(`/users/${id}`);
@@ -17,15 +27,20 @@ interface UserData {
 //   }
 // };
 
-// const createUser = async (userData: UserData): Promise<unknown> => {
-//   try {
-//     const response = await axiosInstance.post('/users', userData);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error creating user:', error);
-//     throw error;
-//   }
-// };
+const createUser = async (userData: UserRegisterData) => {
+  try {
+    const response = await axiosInstance.post('/auth/register',
+      // {
+      //   name: userData.name,
+      //   description: userData.description,
+      // }
+       userData);
+    return response;
+  } catch (error) {
+    console.error('Error creating user:', error);
+    throw error;
+  }
+};
 
 const loginUser = async (userData: UserData) => {
   try {
@@ -42,4 +57,4 @@ const loginUser = async (userData: UserData) => {
 
 // Add more user-related API calls here
 
-export {  loginUser };
+export {  loginUser, createUser };

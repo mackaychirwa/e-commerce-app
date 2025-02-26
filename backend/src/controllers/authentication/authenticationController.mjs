@@ -31,8 +31,8 @@ export const userLogin = async (req, res) => {
 
 export const userRegistration = async (req, res) => {
   try {
-    const { username, email, password, role_id } = req.body;
-    const user = await registerUser(username, email, password, role_id);
+    const { username, email, password, phoneNumber, address, city, country, role_id } = req.body;
+    const user = await registerUser(username, email, password, phoneNumber, address, city, country, role_id);
     res.status(201).json({ message: "User registered successfully", user });
   } catch (err) {
     return res.status(400).json({ message: err.message });

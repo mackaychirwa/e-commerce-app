@@ -24,7 +24,7 @@ export const getProducts = async () => {
     }
 }
 
-export const createProduct =  async (image, name, description, unit_cost, qty, category_id) => {
+export const createProduct =  async (image, name, description, unit_cost, qty, category_id, imageSize) => {
      try {
 
             // const existingProduct = await  Product.findOne({ where: { name: name } });
@@ -37,6 +37,7 @@ export const createProduct =  async (image, name, description, unit_cost, qty, c
                 unit_cost: unit_cost,
                 qty: qty,
                 category_id: category_id,
+                size: imageSize
               });
             await product.save();
     

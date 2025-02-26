@@ -1,29 +1,65 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useTheme } from '@/hooks/page';
-import Image from "next/image";
 import { FaSun, FaMoon, FaEye, FaEyeSlash } from 'react-icons/fa';
-import Link from 'next/link';
+import WarningAlert from '@/components/alert/warningAlert';
+import SuccessAlert from '@/components/alert/successAlert';
+import ErrorAlert from '@/components/alert/errorAlert';
+import { createUser } from '@/services/authentication/authenticationService';
 
 export default function Register() {
   const { isDarkMode, toggleTheme } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    alert('Register');
+ 
+  const handleRegister = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+  
+    if (!email || !password) {
+      WarningAlert({ 
+        title: 'Validation Warning',
+        message: 'Please fill in all required fields',
+      });
+      return;
+    }
+  
+    setLoading(true);
+  
+    try {
+      // 2 represent a customer i will use a static value for now
+      const role_id = 2;
+      const response = await createUser({ username, email, password, phoneNumber, address, city, country, role_id });
+  
+      console.log('Response:', response);
+  
+      if (response.status === 201) {
+      
+        SuccessAlert({ 
+          title: 'Registration Has been Successful', 
+          message: response.data.message || 'Welcome Please login to review products!',
+        });
+       
+      }
+    } catch (error) {
+      console.error('Registration Error:', error);
+      ErrorAlert({ 
+        title: 'Registration Failed',
+        message:'An error occurred during Registration',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
-
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'} flex items-center justify-center relative`}>
         <button
@@ -49,24 +85,12 @@ export default function Register() {
 
         <form onSubmit={handleRegister} >
           <div>
-            <label htmlFor="firstName" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>First Name</label>
+            <label htmlFor="username" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Username</label>
             <input
-              id="firstName"
+              id="username"
               type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className={`w-full px-3 py-2 ${isDarkMode ? 'bg-[#2f3542] text-white' : 'bg-gray-50 text-gray-900'} border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-red-500`}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="lastName" className={`block text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Last Name</label>
-            <input
-              id="lastName"
-              type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className={`w-full px-3 py-2 ${isDarkMode ? 'bg-[#2f3542] text-white' : 'bg-gray-50 text-gray-900'} border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-red-500`}
               required
             />

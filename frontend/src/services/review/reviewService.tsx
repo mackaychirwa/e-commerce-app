@@ -17,15 +17,15 @@ import axiosInstance from '../api';
     }
   };
 
-const createReview = async (reviewData: Omit<Review, "id">, token: string) => { 
+const createReview = async (reviewData: string, user_id: number, product_id: number, token: string) => { 
   try {
     const response = await axiosInstance.post(
       "/review",
       {
-        user_id: reviewData.user_id,
-        product_id: reviewData.product_id,
-        rating: reviewData.rating,
-        comment: reviewData.comment,
+        user_id: user_id,
+        product_id: product_id,
+        rating: 1,
+        comment: reviewData,
       },
       {
         headers: {
@@ -95,18 +95,17 @@ const deleteReview = async (id: number, token: string) => {
     try {
       console.log(reviewData);
 
-      const response = await axiosInstance.put(
-        `/review/${id}`,
+      const response = await axiosInstance.post(
+        `/replyReview`,
         {
+          review_id: reviewData.review_id,
+          reply: reviewData.comment,
           user_id: reviewData.user_id,
-          product_id: reviewData.product_id,
-          rating: reviewData.rating,
-          comment: reviewData.comment,
         },
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         }
       );

@@ -1,10 +1,19 @@
 import multer from 'multer';
 import path from 'path';
+import fs from 'fs';
+
+// Define the uploads directory inside the src folder
+const uploadDir = path.resolve('src', 'uploads');
+
+// Ensure the uploads directory exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Configure storage location and filename
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../uploads/'); 
+    cb(null, uploadDir); // Store files inside src/uploads/
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); 
@@ -28,7 +37,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 10 * 1024 * 1024 }, 
+  limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 10MB
 });
 
 export default upload;

@@ -47,10 +47,17 @@ interface Product {
         throw error;
     }
 };
-const getProduct = async (id: string) => {
+const getProduct = async (id: number, token: string) => {
     try {
-      const response = await axiosInstance.get(`/product/${id}`);
-      return response.data;
+      const response = await axiosInstance.get(`/product/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response;
     } catch (error) {
       console.error('Error fetching category:', error);
       throw error;

@@ -34,14 +34,17 @@ export const getReviews = async () => {
     }
 }
 
-export const createReview =  async (name, description) => {
+export const createReview =  async (user_id, product_id, rating, comment) => {
      try {
-            const existingReview = await  Review.findOne({ where: { name } });
-            if (existingReview) return { success: false, message: "This review already exists" };
+            const existingReview = await  Review.findOne({ where: {user_id: user_id, product_id: product_id } });
+            if (existingReview) return { success: false, message: "You have already reviewed this product" };
             
             const review = await Review.create({
-                name: name,
-                description: description,
+            
+                user_id: user_id, 
+                product_id: product_id, 
+                rating: rating, 
+                comment: comment
               });
             await review.save();
     
@@ -90,10 +93,11 @@ export const deleteReview = async (review_id) => {
         return { success: false, message: "Server error:", error };
     }
 }
-export const replyToReview = async (review_id, reply) => {
+export const replyToReview = async (user_id, review_id, reply) => {
     try {
         const review = await Review.findOne({ where: { review_id } });
         if (!review) return { success: false, message: "review not found" };
+        review.user_id = user_id;
         review.reply = reply;
         await review.save();
         return review;

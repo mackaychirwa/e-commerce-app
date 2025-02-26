@@ -38,6 +38,10 @@ const ProductModel = (sequelize) => {
         allowNull: true,
         field: 'image_url',
       },
+      size: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

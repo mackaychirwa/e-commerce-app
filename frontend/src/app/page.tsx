@@ -110,7 +110,7 @@ export default function Home() {
                     <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                       {product.description}
                     </p>
-                    <p className="text-xl mt-4">${product.unit_cost}</p>
+                    <p className="text-xl mt-4">MWK: {product.unit_cost}</p>
                   </div>
                 </Link>
                 <div className="flex justify-end mt-2 gap-2">

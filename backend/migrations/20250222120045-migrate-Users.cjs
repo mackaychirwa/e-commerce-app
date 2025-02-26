@@ -30,6 +30,22 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      phoneNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      country: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       role_id: {
         type: DataTypes.INTEGER,
         allowNull: false,

@@ -32,7 +32,7 @@ export const login = async (email, password) => {
 };
 
 
-export const registerUser = async (username, email, password, role_id) => {
+export const registerUser = async (username, email, password, phoneNumber, address, city, country, role_id) => {
     try {
         const existingUser = await  User.findOne({ where: { email } });
         if (existingUser) return { success: false, message: "Email already exists" };
@@ -41,6 +41,10 @@ export const registerUser = async (username, email, password, role_id) => {
         const user = await User.create({
             username: username, 
             email: email,
+            phoneNumber: phoneNumber,
+            address: address,
+            city: city,
+            country: country,
             password: hashedPassword,
             role_id: role_id
           });

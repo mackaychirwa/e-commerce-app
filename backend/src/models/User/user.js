@@ -29,6 +29,26 @@ const initUserModel =  (sequelize) => {
         allowNull: false,
         unique: true
       },
+      phoneNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unique: true
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
+      city: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
+      country: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
       role_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
