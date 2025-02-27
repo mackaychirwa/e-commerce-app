@@ -1,6 +1,6 @@
 import express from 'express';
-import { userLogin, userRegistration } from '../../../controllers/authentication/authenticationController.mjs';
-import { emailToLowerCase } from '../../../middleware/authorization.js';
+import { index, userLogin, userRegistration } from '../../../controllers/authentication/authenticationController.mjs';
+import { authenticateUser, emailToLowerCase } from '../../../middleware/authorization.js';
 
 const router = express.Router();
 
@@ -83,5 +83,7 @@ router.post('/login', emailToLowerCase, userLogin);
  */
 
 router.post('/register', emailToLowerCase, userRegistration);
+
+router.get("/users", authenticateUser, index);  
 
 export default router;

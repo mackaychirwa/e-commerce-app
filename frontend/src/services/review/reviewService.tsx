@@ -93,14 +93,14 @@ const deleteReview = async (id: number, token: string) => {
   };
   const updateReviewReply = async (id: number,  reviewData: Review,   token: string ) => {
     try {
-      console.log(reviewData);
 
       const response = await axiosInstance.post(
-        `/replyReview`,
+        `/review/replyReview`,
         {
-          review_id: reviewData.review_id,
+          review_id: id,
           reply: reviewData.comment,
-          user_id: reviewData.user_id,
+          
+          user_id: 1,
         },
         {
           headers: {
@@ -115,6 +115,23 @@ const deleteReview = async (id: number, token: string) => {
       throw error;
     }
   };
-  
+  const getReviewReply = async (id: number, token: string ) => {
+    try {
 
-export { getReviews, getReview, createReview, updateReview, deleteReview, updateReviewReply };
+      const response = await axiosInstance.get(
+        `/review/replyReview/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error('Error updating review:', error);
+      throw error;
+    }
+  };
+
+export { getReviews, getReview, createReview, updateReview, deleteReview, updateReviewReply, getReviewReply };

@@ -21,9 +21,8 @@ const ReviewReplyModel =  (sequelize) => {
       },
       review_id: {
           type: DataTypes.INTEGER,
-          allowNull: false,
-          
-      },     
+          allowNull: false, 
+      },
       reply: {
           type: DataTypes.TEXT,
           allowNull: false,

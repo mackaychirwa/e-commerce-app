@@ -1,4 +1,5 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -8,13 +9,19 @@ module.exports = {
       "SELECT id FROM roles WHERE name = 'admin'"
     );
 
-    // Insert the default admin user with role_id = 1 (admin role)
+    const hashedPassword = await bcrypt.hash('password', 10);
+
+    // Insert the default admin user
     await queryInterface.bulkInsert('users', [
       {
-        name: 'Admin User',
-        email: 'admin@example.com',
-        password: 'hashedpassword', // You can hash a password or use a library like bcrypt
-        role_id: adminRole[0].id, // Assign the admin role id
+        email: 'admin@tushop.com',
+        password: hashedPassword, 
+        username: 'Admin User',
+        phoneNumber: '0881315201',
+        address: 'Blantyre',
+        city: 'Blantyre',
+        country: 'Malawi',
+        role_id: adminRole[0].id, 
         created_at: new Date(),
         updated_at: new Date(),
       }
@@ -22,10 +29,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    // Delete the user with role_id = 1 (admin role)
-    await queryInterface.bulkDelete('users', { email: 'admin@example.com' });
-
-    // Optionally, you could delete the 'admin' role if necessary
-    // await queryInterface.bulkDelete('roles', { name: 'admin' });
+    await queryInterface.bulkDelete('users', { email: 'admin@tushop.com' });
   }
 };

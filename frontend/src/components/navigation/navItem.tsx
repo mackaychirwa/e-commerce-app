@@ -22,10 +22,10 @@ type NavItemProps = {
                hover:bg-[var(--primary)] hover:text-white`
         }`}>
           <div className="flex items-center flex-1 hover:text-white">
-            <span className={`text-xl hover:text-white ${active ? 'text-[--primary]' : ''}`}>{icon}</span>
+            <span className={`text-xl hover:text-white ${active ? 'text-[var(--primary)]' : ''}`}>{icon}</span>
             {!collapsed && (
-              <span className={`ml-3 hover:text-white ${
-                active ? 'text-[--primary] ' : isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-white'
+              <span className={`ml-3 hover:text-black ${
+                active ? 'text-[var(--primary)] ' : isDarkMode ? 'text-gray-400 hover:text-[var(--primary)]' : 'text-gray-600 hover:text-[var(--primary)]'
               }`}>
                 {text}
               </span>

@@ -1,5 +1,5 @@
 import express from 'express';
-import { index, show, store, update, destroy, replyReview } from '../../../controllers/review/reviewController.mjs';
+import { index, show, store, update, destroy, replyReview, replyReviewById } from '../../../controllers/review/reviewController.mjs';
 import { authenticateUser } from '../../../middleware/authorization.js';
 
 const router = express.Router();
@@ -205,5 +205,6 @@ router.delete("/:id", authenticateUser, destroy);
  *         description: Review not found
  */
 router.post("/replyReview", authenticateUser, replyReview);
+router.get("/replyReview/:id", authenticateUser, replyReviewById);
 
 export default router;

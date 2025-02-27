@@ -6,5 +6,6 @@ export interface ProductType {
     qty: number;
     category_id: number;
     imageUrl?: string;
+    
   }
   

@@ -8,7 +8,6 @@ export const index = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 }
-
 export const store = async (req, res) => {
     try {
         const { name, description } = req.body;

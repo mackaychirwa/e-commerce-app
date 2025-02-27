@@ -1,11 +1,13 @@
 import { sequelize } from "../../config/database.js";
 import ProductModel from "../../models/Product/Product.js";
 import ReviewModel from "../../models/Review/Review.js";
+import ReviewReplyModel from "../../models/Review/ReviewReply.js";
 import initUserModel from "../../models/User/user.js";
 
 const Review = ReviewModel(sequelize);
 const User = initUserModel(sequelize);
 const Product = ProductModel(sequelize);
+const ReviewReply = ReviewReplyModel(sequelize);
 
 
 // Initialize associations
@@ -95,14 +97,34 @@ export const deleteReview = async (review_id) => {
 }
 export const replyToReview = async (user_id, review_id, reply) => {
     try {
-        const review = await Review.findOne({ where: { review_id } });
-        if (!review) return { success: false, message: "review not found" };
-        review.user_id = user_id;
-        review.reply = reply;
-        await review.save();
-        return review;
+        const existingReply = await ReviewReply.findOne({ where: { review_id: review_id, user_id: user_id } });
+        if (existingReply) {
+            return { message: "You have already replied to this review." };
+        }
+        const reviewReply = await ReviewReply.create({
+            review_id: review_id,
+            user_id: user_id,
+            reply: reply
+        });
+        await Review.update(
+            { review_state: 1 }, 
+            { where: { id: review_id } } 
+        );
+        return reviewReply;
     } catch (error) {
         console.error("Failed to reply review:", error);
         return { success: false, message: "Server error:", error };
     }
 }
+export const getReviewReplyById = async (id) =>
+{
+    try {
+        const reviewReply = await ReviewReply.findOne({ where: { review_id: id } });
+        if (!reviewReply) return { success: false, message: "Review not found" };
+        return reviewReply;
+    } catch (error) {
+        console.error("Failed to retrieve Review:", error);
+        return { success: false, message: "Server error:", error };
+    }
+}
+    

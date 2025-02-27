@@ -1,4 +1,5 @@
 import { sequelize } from "../../config/database.js";
+import { _bytes } from "../../helper/bytesHelper.js";
 import CategoryModel from "../../models/Category/Category.js";
 import ProductModel from "../../models/Product/Product.js";
 
@@ -17,7 +18,20 @@ export const getProducts = async () => {
                 attributes: ['id', 'name'] // Optionally specify which category fields to include
             }]
         });
-        return products;
+          // Format the size field for each product
+          const formattedProducts = products.map(product => {
+            // size is a string need to convert to a number
+            const sizeInBytes = Number(product.size);
+            // Check if the size is available and format it
+            const formattedSize = _bytes(sizeInBytes); 
+            return {
+                ...product.toJSON(),  // Convert the product to a plain object
+                sizeFormatted: formattedSize  // Add the formatted size
+            };
+        });
+
+        return formattedProducts;
+        // return products;
     } catch (error) {
         console.error("Failed to retrieve all products:", error);
         return { success: false, message: "Server error:", error };

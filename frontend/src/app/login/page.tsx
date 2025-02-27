@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTheme } from '@/hooks/page';
 import { FaSun, FaMoon, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Link from 'next/link';
@@ -12,6 +12,7 @@ import ErrorAlert from '@/components/alert/errorAlert';
 import { useDispatch } from 'react-redux';
 import { store } from '@/store/redux/auth/store';
 import { setLogin } from '@/store/redux/auth/userSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -21,10 +22,10 @@ export default function Login() {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
   const dispatch = useDispatch();
+  const router = useRouter(); 
 
-  const handleLogin = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleLogin = useCallback(async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
   
     if (!email || !password) {
@@ -39,42 +40,37 @@ export default function Login() {
   
     try {
       const response = await loginUser({ email, password });
-  
-      console.log('Response:', response);
-  
-      if (response.status === 200) {
+
+      if (response?.status === 200 && response?.data?.userData) {
         const userResponse = response.data;
-        console.log('User Data to be stored:', userResponse);
-  
-        // Dispatch login action with the correct structure
+        const role = userResponse.userData.role_id;
+
         dispatch(setLogin({
           user: userResponse.userData,
           token: userResponse.token,
         }));
-  
-        // Verify the state was updated
-        const currentState = store.getState();
-        console.log('Redux State after login:', currentState);
-  
+
         SuccessAlert({ 
           title: 'Login Successful', 
           message: response.data.message || 'Welcome back!',
         });
-        
-        // setTimeout(() => {
-        //   // navigate('/dashboard');
-        // }, 2000);
+
+        setTimeout(() => {
+          router.push(role === 1 ? '/admin/dashboard' : '/');
+        }, 1500);
+      } else {
+        throw new Error('Unexpected response structure');
       }
-    } catch (error) {
-      console.error('Login Error:', error);
+    } catch (err: any) {
+      console.error('Login Error:', err);
       ErrorAlert({ 
         title: 'Login Failed',
-        message:'An error occurred during login',
+        message: err.response?.data?.message || 'Invalid Email / Password',
       });
     } finally {
       setLoading(false);
     }
-  };
+  }, [email, password, dispatch, router]);
 
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-200'} flex items-center justify-center relative`}>
@@ -87,8 +83,6 @@ export default function Login() {
       </button>
 
       <div className={`${isDarkMode ? 'bg-[#242424]' : 'bg-white'} p-8 rounded-lg shadow-lg w-full max-w-md`}>
-       
-        
         <h2 className={`text-2xl font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} text-center mb-8`}>
           Sign in
         </h2>
@@ -105,11 +99,11 @@ export default function Login() {
               required
             />
           </div>
-          
+
           <div className="flex justify-end">
-            <label className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-              Forgot password? <Link href="/forgot-password" className="text-red-500 hover:underline">Reset</Link>
-            </label>
+            <Link href="/forgot-password" className="text-sm text-red-500 hover:underline">
+              Forgot password?
+            </Link>
           </div>
 
           <div>
@@ -126,7 +120,7 @@ export default function Login() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className={`absolute inset-y-0 right-0 flex items-center pr-3 ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-600 hover:text-gray-700'}`}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 hover:text-gray-700"
               >
                 {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
               </button>
@@ -147,9 +141,9 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            className="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 flex justify-center"
           >
-            Sign in
+            {loading ? <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span> : "Sign in"}
           </button>
         </form>
       </div>

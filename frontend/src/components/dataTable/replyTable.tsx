@@ -49,7 +49,8 @@ const ReplyTable: React.FC<SampleTableProps> = ({ columns, initialClaimsData = [
 
   const handleEditSave = async () => {
     if (editProduct?.id && editProduct.comment) {
-      const response = await updateReviewReply(editProduct.id, { comment: editProduct.comment }, token);  
+      const response = await updateReviewReply(editProduct.id, { comment: editProduct.comment }, token); 
+      console.log(response); 
       setFilteredData((prev) => prev.map((prod) => (prod.id === editProduct.id ? { ...prod, comment: editProduct.comment } : prod))); 
       setIsModalOpen(false);  
     }

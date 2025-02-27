@@ -7,6 +7,7 @@ import WarningAlert from '@/components/alert/warningAlert';
 import SuccessAlert from '@/components/alert/successAlert';
 import ErrorAlert from '@/components/alert/errorAlert';
 import { createUser } from '@/services/authentication/authenticationService';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -20,7 +21,7 @@ export default function Register() {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter(); 
  
   const handleRegister = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -48,7 +49,9 @@ export default function Register() {
           title: 'Registration Has been Successful', 
           message: response.data.message || 'Welcome Please login to review products!',
         });
-       
+        setTimeout(() => {
+          router.push('/login'); // Navigate to login page
+        }, 2000); 
       }
     } catch (error) {
       console.error('Registration Error:', error);

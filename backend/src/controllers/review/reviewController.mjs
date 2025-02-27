@@ -1,4 +1,4 @@
-import { createReview, deleteReview, getReviewById, getReviews, updateReview, replyToReview } from "../../services/review/reviewService.mjs";
+import { createReview, deleteReview, getReviewById, getReviews, updateReview, replyToReview, getReviewReplyById } from "../../services/review/reviewService.mjs";
 
 export const index = async (req, res) => {
     try {
@@ -58,6 +58,14 @@ export const replyReview = async (req, res) => {
         res.json(replyReview);
     } catch (error) {
         res.status(400).json({ error: error.message });
-    }
-   
+    } 
+}
+export const replyReviewById = async (req, res) => {
+    try{
+        const { id } = req.params;
+        const replyReview = await getReviewReplyById(id);
+        res.json(replyReview);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    } 
 }

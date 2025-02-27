@@ -17,23 +17,26 @@ interface UserRegisterData {
   role_id: number;
   
 }
-// const getUser = async (id: string): Promise<unknown> => {
-//   try {
-//     const response = await axiosInstance.get(`/users/${id}`);
-//     return response.data;
-//   } catch (error) {
-//     console.error('Error fetching user:', error);
-//     throw error;
-//   }
-// };
+const getUsers = async (token: string)=> {
+  try {
+    const response = await axiosInstance.get(`/auth/users`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    throw error;
+  }
+};
 
 const createUser = async (userData: UserRegisterData) => {
   try {
     const response = await axiosInstance.post('/auth/register',
-      // {
-      //   name: userData.name,
-      //   description: userData.description,
-      // }
        userData);
     return response;
   } catch (error) {
@@ -57,4 +60,4 @@ const loginUser = async (userData: UserData) => {
 
 // Add more user-related API calls here
 
-export {  loginUser, createUser };
+export {  loginUser, createUser, getUsers };

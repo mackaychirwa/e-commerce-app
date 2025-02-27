@@ -2,12 +2,13 @@
 
 import { AiOutlineHeart } from "react-icons/ai";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import TopNavBar from "@/components/navigation/topNavBar";
 import { useTheme } from "@/hooks/page";
 import Link from "next/link";
 import { getProducts } from "@/services/product/productService";
 import { useSelector } from "react-redux";
+import { createWishlist } from "@/services/wishlist/wishListService";
 
 interface ProductType {
   id: number;
@@ -26,11 +27,30 @@ export default function Home() {
   const { token } = useSelector((state: any) => state);
   const [loading, setLoading] = useState(false);
 
-  const handleWishlist = (productId: number) => {
-    setWishlist((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
-    );
-  };
+  // const handleWishlist = (productId: number) => {
+  //   setWishlist((prev) =>
+  //     prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+  //   );
+  // };
+  const handleWishlist = async (productId: number) => {
+
+    try {
+      const user_id =1;
+      const response = await createWishlist(productId, user_id, token);
+      if(response.status == 201)
+      {
+        setWishlist((prev) =>
+          prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+        );
+      }
+      console.log(response);
+    } catch (err: any) {
+      console.error('Error:', err);
+     
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -55,9 +75,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+    <div className={`${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-black"} min-h-screen`}>
       <TopNavBar wishlistCount={wishList} />
-
       {/* Header */}
       <header className={`p-12 text-center ${isDarkMode ? "bg-gray-800" : "bg-[#e6f7fb]"}`}>
         <h1 className="text-4xl font-bold">Welcome to Kaizen</h1>

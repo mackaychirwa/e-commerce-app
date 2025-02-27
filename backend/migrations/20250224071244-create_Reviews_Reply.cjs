@@ -8,9 +8,9 @@ module.exports = {
     await queryInterface.createTable('review_replies', {
       id: {
         type: DataTypes.INTEGER,
-        defaultValue: 0,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true
     },
     review_id: {
         type: DataTypes.INTEGER,
@@ -25,6 +25,23 @@ module.exports = {
     reply: {
         type: DataTypes.TEXT,
         allowNull: false,
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'created_at'
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+      field: 'updated_at'
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      field: 'deleted_at'
     },
     
     });

@@ -1,4 +1,4 @@
-import { FiHome, FiFileText, FiShoppingCart, FiShield, FiArchive, FiClock, FiUserX, FiMessageSquare  } from "react-icons/fi";
+import { FiHome, FiFileText, FiShoppingCart, FiShield, FiArchive, FiClock, FiUserX, FiMessageSquare,FiLogOut   } from "react-icons/fi";
 import { FaFolderOpen } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
 import NavItem from './navItem';
@@ -14,7 +14,7 @@ const ROUTES = {
   folders: "/admin/folders",
   users: "/admin/users",
   statuses: "/admin/statuses",
-  auditTrail: "/admin/audit-trail",
+  logout: "/",
   wishlist: "/admin/wishlist",
   cart: "/admin/cart"
 };
@@ -66,7 +66,7 @@ const Sidebar = ({ collapsed }) => {
           <NavItem text="Roles" icon={<FiShield />} link={ROUTES.roles} active={location.pathname === ROUTES.roles} counter={5} collapsed={collapsed} />
           <NavItem text="Users" icon={<FiUserX />} link={ROUTES.users} active={location.pathname === ROUTES.users} collapsed={collapsed} />
           <NavItem text="Statuses" icon={<MdOutlinePendingActions />} link={ROUTES.statuses} active={location.pathname === ROUTES.statuses} collapsed={collapsed} />
-          <NavItem text="Audit Trail" icon={<FiClock />} link={ROUTES.auditTrail} active={location.pathname === ROUTES.auditTrail} collapsed={collapsed} />
+          <NavItem text="Logout" icon={<FiLogOut color="red" />} link={ROUTES.logout} active={location.pathname === ROUTES.logout} collapsed={collapsed} />
         </div>
       </nav>
     </div>

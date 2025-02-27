@@ -2,6 +2,7 @@
 
 import MainComponent from '@/components/mainComponent';
 import { useTheme } from '@/hooks/page';
+import { getUsers } from '@/services/authentication/authenticationService';
 import { getCategories } from '@/services/category/categoryService';
 import { getProducts } from '@/services/product/productService';
 import { ProductType } from '@/types/productType';
@@ -14,29 +15,34 @@ export default function Dashboard() {
   const { isDarkMode } = useTheme();
 const [loading, setLoading] = useState(false);
 const { token } = useSelector((state: any) => state);
+const [user, setUser] = useState([]);
 const [category, setCategory] = useState([]);
     // const [product, setProduct] = useState([]);
-const [product, setProduct] = useState<ProductType[]>([]);
+const [product, setProduct] = useState([]);
+
+
+
+//TODO:: Need to change this to one api call to improve perfomance
 const fetchCategory = async () => {
   setLoading(true);
   try {
       const response = await getCategories(token);
-      console.log('client data', response);
+      console.log('category data', response);
 
       if (response.status === 200) {
           const data = response.data;
           setCategory(data.category);
       } else {
-          console.error('Failed to retrieve client data', response);
+          console.error('Failed to retrieve category data', response);
       }
   } catch (error) {
-      console.error('Error retrieving client data:', error);
+      console.error('Error retrieving category data:', error);
   } finally {
       setLoading(false);
   }
 };
 
-// Fetch clients data from the backend
+// Fetch Products data from the backend
 const fetchProducts = async () => {
   setLoading(true);
   try {
@@ -47,16 +53,34 @@ const fetchProducts = async () => {
           const data = response.data;
           setProduct(data);
       } else {
-          console.error('Failed to retrieve client data', response);
+          console.error('Failed to retrieve product data', response);
       }
   } catch (error) {
-      console.error('Error retrieving client data:', error);
+      console.error('Error retrieving product data:', error);
   } finally {
       setLoading(false);
   }
 };
+const fetchUsers = async () => {
+  setLoading(true);
+  try {
+      const response = await getUsers(token);
+      console.log('getUsers', response);
 
+      if (response.status === 200) {
+          const data = response.data;
+          setUser(data);
+      } else {
+          console.error('Failed to retrieve user data', response);
+      }
+  } catch (error) {
+      console.error('Error retrieving user data:', error);
+  } finally {
+      setLoading(false);
+  }
+};
 useEffect(() => {
+  fetchUsers();
   fetchProducts();
   fetchCategory();
 }, []);
@@ -66,12 +90,12 @@ useEffect(() => {
     {
       icon: <FiUsers className="text-2xl text-[var(--primary)]" />,
       title: "Users",
-      count: 0,
+      count: user.length ?? 0,
     },
     {
       icon: <FiFolder className="text-2xl text-[var(--primary)]" />,
       title: "Categories",
-      count:  category.length ??0,
+      count:  category.length ?? 0,
     },
     {
       icon: <FiFile className="text-2xl text-[var(--primary)]" />,
@@ -81,11 +105,11 @@ useEffect(() => {
     {
       icon: <FiHardDrive className="text-2xl text-[var(--primary)]" />,
       title: "Storage Capacity",
-      count:  "0 B",
+      count: product.length > 0 ? product[0].sizeFormatted : "0 B",
     },
   ];
   
-
+console.log(product)
  
   return (
     <MainComponent>
@@ -130,7 +154,7 @@ useEffect(() => {
           ))}
         </div>
 
-        {/* Document Upload Chart */}
+        {/* Products Upload Chart */}
         <div className={`mt-6 p-4 md:p-6 ${
           isDarkMode ? 'bg-[var(--dark-card)]' : 'bg-white'
         } rounded-lg shadow-lg transition-all duration-300`}>
@@ -138,10 +162,9 @@ useEffect(() => {
             <h2 className={`text-lg md:text-xl font-semibold ${
               isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
-              Document Uploaded
+              Products Uploaded
             </h2>
             <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-              {/* Add any chart controls here if needed */}
             </div>
           </div>
           <div className="mt-4 h-[350px] w-full">

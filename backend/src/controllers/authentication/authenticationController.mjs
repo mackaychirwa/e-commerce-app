@@ -1,5 +1,15 @@
-import { login, registerUser } from '../../services/authentication/authenticationService.mjs';
+import { getUsers, login, registerUser } from '../../services/authentication/authenticationService.mjs';
 import { addTokenToCookie, createToken, userToken } from '../../utils/index.js';
+
+export const index = async (req, res) => {
+    try {
+        const user = await getUsers();
+        res.json(user);
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+}
+
 
 export const userLogin = async (req, res) => {
   try {

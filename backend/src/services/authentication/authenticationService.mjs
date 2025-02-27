@@ -10,6 +10,17 @@ import { addTokenToCookie, createToken, generateAccessRefreshToken, userToken } 
 import buildUser from '../../controllers/helpers/Response.js';
 
 const User = initUserModel(sequelize);
+
+export const getUsers = async () => {
+    try {
+        const user = await User.findAll();
+        return user;
+    } catch (error) {
+        console.error("Failed to retrieve all user:", error);
+        return { success: false, message: "Server error:", error };
+    }
+}
+
 export const login = async (email, password) => {
     try {
         const user = await User.findOne({ where: { email } });
