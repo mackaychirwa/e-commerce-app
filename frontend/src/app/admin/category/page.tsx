@@ -7,27 +7,21 @@ import { useTheme } from '@/hooks/page';
 import React, { useState, ChangeEvent, useEffect } from 'react';
 import { createCategory, deleteCategory, getCategories } from '@/services/category/categoryService';
 import { useSelector } from 'react-redux';
-
-// Define type for new category data
-interface Category {
-  id?: number;  // Make 'id' optional
-  name: string;
-  description: string;
-}
+import { Category } from '@/types/categoryType';
 
 
-// Static data for product categories
+
 const columns = [
   { 
     key: 'categoryName', 
     title: 'Category Name',
-    dataIndex: 'name', // This links to the data
+    dataIndex: 'name', 
   },
 
   { 
     key: 'description', 
     title: 'Description',
-    dataIndex: 'description', // This links to the data
+    dataIndex: 'description', 
   },
  
 ];
@@ -37,11 +31,9 @@ const columns = [
 const Dashboard: React.FC = () => {
   const { isDarkMode } = useTheme();
 
-  // Mock loading state for table
   const [loading, setLoading] = useState(false);
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  // Modal state
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [category, setCategory] = useState<Category[]>([]);
   const [newCategory, setNewCategory] = useState<Omit<Category, 'id'>>({
@@ -54,7 +46,7 @@ const Dashboard: React.FC = () => {
     // Handle adding a new category
     const handleAddCategory = () => {
       console.log("Adding new category...");
-      setIsModalOpen(true); // Open the modal to add a category
+      setIsModalOpen(true); 
     };
 
     // Handle modal form input changes

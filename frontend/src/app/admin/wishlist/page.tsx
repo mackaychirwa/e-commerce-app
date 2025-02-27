@@ -43,7 +43,6 @@ const Wishlist = () => {
  
   ];
   
-    // Fetch review data from the backend
    
     const fetchWishlist = async () => {
         if (!user) return;

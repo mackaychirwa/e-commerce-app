@@ -205,6 +205,36 @@ router.delete("/:id", authenticateUser, destroy);
  *         description: Review not found
  */
 router.post("/replyReview", authenticateUser, replyReview);
+
+/**
+ * @swagger
+ * /review/replyReview/{id}:
+ *   get:
+ *     summary: Get a reply to a review by ID
+ *     tags: [Review]
+ *     security:
+ *       - BearerAuth: []  # Bearer token required in the Authorization header
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the review reply to retrieve
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Review reply retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 reply:
+ *                   type: string
+ *                   example: Thank you for the feedback! We're glad you liked the product.
+ *       404:
+ *         description: Review reply not found
+ */
 router.get("/replyReview/:id", authenticateUser, replyReviewById);
 
 export default router;

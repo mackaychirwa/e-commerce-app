@@ -12,8 +12,8 @@ interface NewProduct {
   rating?: number;
   review_state?: number;
   comment?: string;
-  user?: { id: number; username: string }; // Adding the user object
-  product?: { id: number; name: string }; // Adding the product object
+  user?: { id: number; username: string }; 
+  product?: { id: number; name: string }; 
 }
 
 interface SampleTableProps {

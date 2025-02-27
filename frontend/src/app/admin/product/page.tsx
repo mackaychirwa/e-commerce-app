@@ -8,18 +8,8 @@ import { useSelector } from 'react-redux';
 import { createProduct, getProducts } from '@/services/product/productService';
 import { getCategories } from '@/services/category/categoryService';
 import ProductTable from '@/components/dataTable/productTable';
+import { ProductType } from '@/types/productType';
 
-// Define type for new product data
-
-interface ProductType {
-  id: number;
-  name: string;
-  description: string;
-  unit_cost: string;
-  qty: number;
-  category_id: number;
-  imageUrl?: string;
-}
 
 // Static data for product
 const columns = [

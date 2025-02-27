@@ -5,11 +5,8 @@ import { useTheme } from '@/hooks/page';
 import { getUsers } from '@/services/authentication/authenticationService';
 import { getCategories } from '@/services/category/categoryService';
 import { getProducts } from '@/services/product/productService';
-import { ProductType } from '@/types/productType';
 import React, { useEffect, useState } from 'react';
 import { FiUsers, FiFolder, FiFile, FiHardDrive } from "react-icons/fi";
-import { useSelector } from 'react-redux';
-// Static data for document uploads per month
 
 export default function Dashboard() {
   const { isDarkMode } = useTheme();

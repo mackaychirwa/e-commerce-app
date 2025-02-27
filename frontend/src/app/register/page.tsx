@@ -49,9 +49,8 @@ export default function Register() {
           title: 'Registration Has been Successful', 
           message: response.data.message || 'Welcome Please login to review products!',
         });
-        setTimeout(() => {
-          router.push('/login'); // Navigate to login page
-        }, 2000); 
+        router.push('/login');
+        
       }
     } catch (error) {
       console.error('Registration Error:', error);
