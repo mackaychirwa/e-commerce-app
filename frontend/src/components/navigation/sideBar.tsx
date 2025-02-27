@@ -18,6 +18,12 @@ const ROUTES = {
   wishlist: "/admin/wishlist",
   cart: "/admin/cart"
 };
+const handleLogout = () => {
+  // Dispatch logout action to clear Redux state
+  dispatch(logout());
+  // Optionally, you can redirect the user to the home page or login page
+  window.location.href = "/";
+};
 
 const Sidebar = ({ collapsed }) => {
   const { isDarkMode } = useTheme();

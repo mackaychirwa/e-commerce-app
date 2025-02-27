@@ -3,19 +3,19 @@
 import MainComponent from '@/components/mainComponent';
 import { useTheme } from '@/hooks/page';
 import React, { useState,  useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { getReviews } from '@/services/review/reviewService';
-import { Review } from '@/types/reviewType';
-import ReplyTable from '@/components/dataTable/replyTable';
+import { getWishlists } from '@/services/wishlist/wishListService';
+import WishlistTable from '@/components/dataTable/wishlistTable';
 
 
 
-
-const ReviewReply = () => {
+const Wishlist = () => {
   const { isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
-  const [review, setReview] = useState<Review[]>([]);
-  const { token } = useSelector((state: any) => state);
+  const [wishlist, setWishlist] = useState([]);
+
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const storedUser = typeof window !== "undefined" ? localStorage.getItem("user") : null;
+  const user = storedUser ? JSON.parse(storedUser) : null;
 
   const columns = [
     { 
@@ -30,57 +30,48 @@ const ReviewReply = () => {
       dataIndex: 'product_id',
     },
     { 
-      key: 'rating', 
-      title: 'Rating',
-      dataIndex: 'rating',
+      key: 'Cost', 
+      title: 'cost',
+      dataIndex: 'unit_cost',
     },
     { 
-      key: 'comment', 
-      title: 'Comment',
-      dataIndex: 'comment',
-    },
-    { 
-        title: 'Review State',
-        key: 'review_state', 
-        dataIndex: 'review_state',
-        render: (text) => {
-          // Render 'Not yet replied' if review_state is 1, otherwise just show the review state
-          return text === 1 ? 'Not yet replied' : 'Replied';
-        },
-    }
+        key: 'Quality', 
+        title: 'Quality',
+        dataIndex: 'qty',
+      },
+   
+ 
   ];
   
     // Fetch review data from the backend
-    const fetchReviews = async () => {
-        setLoading(true);
+   
+    const fetchWishlist = async () => {
+        if (!user) return;
         try {
-            const response = await getReviews(token);
+            const response = await getWishlists(token);
+            console.log("Fetched wishlist:", response);
 
-            if (response.status === 200) {
-                const data = response.data;
-                setReview(data);
-                
+            if (response.status === 200 && Array.isArray(response.data)) {
+                setWishlist(response.data);
             } else {
-                console.error('Failed to retrieve client data', response);
+                console.error("Failed to retrieve Wishlist", response);
             }
         } catch (error) {
-            console.error('Error retrieving client data:', error);
-        } finally {
-            setLoading(false);
-        }
+            console.error("Error retrieving Wishlist:", error);
+        } 
     };
 
     useEffect(() => {
-        fetchReviews();
+        fetchWishlist();
     }, []);
-    
+
   return (
     <MainComponent>
       <div className={`p-6 sm:p-8 mt-6 rounded ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'}`}>
-        <ReplyTable
+        <WishlistTable
           columns={columns} 
-          initialClaimsData={review} 
-          label="Reviews" 
+          initialClaimsData={wishlist} 
+          label="Wishlist" 
           loading={loading} 
           columnNumber="5" 
           token={token}
@@ -90,4 +81,4 @@ const ReviewReply = () => {
   );
 }
 
-export default ReviewReply;
+export default Wishlist;

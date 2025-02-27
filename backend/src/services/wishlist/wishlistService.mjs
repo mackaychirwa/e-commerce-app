@@ -23,7 +23,7 @@ export const getWishProductList = async () => {
                 {
                     model: Product,
                     as: "product",
-                    attributes: ["id", "name"], 
+                    attributes: ["id", "name", "qty", "unit_cost"], 
                 }
             ],
         });

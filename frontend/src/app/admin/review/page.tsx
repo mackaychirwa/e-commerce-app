@@ -15,7 +15,7 @@ const ReviewReply = () => {
   const { isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
   const [review, setReview] = useState<Review[]>([]);
-  const { token } = useSelector((state: any) => state);
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   const columns = [
     { 

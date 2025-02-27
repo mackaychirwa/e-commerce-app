@@ -39,7 +39,7 @@ const Dashboard: React.FC = () => {
 
   // Mock loading state for table
   const [loading, setLoading] = useState(false);
-  const { token } = useSelector((state: any) => state);
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);

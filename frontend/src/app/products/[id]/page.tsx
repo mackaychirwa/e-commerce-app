@@ -19,8 +19,8 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [reviewText, setReviewText] = useState("");
   const [loading, setLoading] = useState(false);
-  const { token } = useSelector((state: any) => state);
   const [reviews, setReviews] = useState<any[]>([]); // Changed to store review objects with replies
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   useEffect(() => {
     const fetchProduct = async () => {

@@ -24,8 +24,8 @@ export default function Home() {
   const { isDarkMode } = useTheme(); 
   const [wishList, setWishlist] = useState<number[]>([]);
   const [products, setProducts] = useState<ProductType[]>([]);
-  const { token } = useSelector((state: any) => state);
   const [loading, setLoading] = useState(false);
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   // const handleWishlist = (productId: number) => {
   //   setWishlist((prev) =>

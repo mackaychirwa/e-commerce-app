@@ -14,11 +14,11 @@ import { useSelector } from 'react-redux';
 export default function Dashboard() {
   const { isDarkMode } = useTheme();
 const [loading, setLoading] = useState(false);
-const { token } = useSelector((state: any) => state);
 const [user, setUser] = useState([]);
 const [category, setCategory] = useState([]);
     // const [product, setProduct] = useState([]);
 const [product, setProduct] = useState([]);
+const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
 
 

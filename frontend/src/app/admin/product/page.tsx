@@ -58,8 +58,8 @@ const Product= () => {
     const { isDarkMode } = useTheme();
 
     const [loading, setLoading] = useState(false);
-    const { token } = useSelector((state: any) => state);
     const [selectedFolder, setSelectedFolder] = useState("");
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [category, setCategory] = useState([]);
