@@ -11,7 +11,7 @@ const createToken = ({ payload }) => {
   });
 };
 
-// Generate both access and refresh tokens
+// Generating a refresh token
 const generateAccessRefreshToken = async (tokenUser) => {
   const user = await User.findOne({ where: { id: tokenUser.userId } });
 
@@ -50,14 +50,13 @@ const addTokenToCookie = ({ res, user }) => {
 
   let now = new Date();
   const cookieExpiration = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
-  console.log('res:',res);
 
   res.cookie('token', refreshToken,
     {
-    httpOnly: false, // Secure cookie flag
-    expires: cookieExpiration, // Set expiration
-    secure: false, // Ensure it's only sent over HTTPS
-    sameSite: 'Lax', // Cross-site cookies
+    httpOnly: false, 
+    expires: cookieExpiration, 
+    secure: false, 
+    sameSite: 'Lax',
   }
 );
 console.log("Cookie Set Successfully");

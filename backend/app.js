@@ -31,7 +31,7 @@ const options = {
     info: {
       title: 'Ecommerce API',
       version: '1.0.0',
-      description: 'A simple API for managing products, categories, users and reviews.',
+      description: 'API for managing products, categories, users and reviews.',
     },
     servers: [
       {

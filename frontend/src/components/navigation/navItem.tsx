@@ -1,15 +1,8 @@
 import { useTheme } from "@/hooks/page";
+import { NavItemProps } from "@/types/navItemProps";
 import Link from "next/link";
 
-type NavItemProps = {
-    text: string;
-    icon: React.ReactNode;
-    link: string;
-    active: boolean;
-    counter?: number; // Make counter optional
-    collapsed: boolean;
-  };
-  
+
   const NavItem: React.FC<NavItemProps> = ({ text, icon, link, active, counter, collapsed }) => {
     const { isDarkMode } = useTheme();
   
