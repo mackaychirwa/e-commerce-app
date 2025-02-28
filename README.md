@@ -44,10 +44,11 @@ This is an E-Commerce Product Review & Wishlist System where users can browse pr
 
 - `src/`
   - `config/`: Database configuration
-  - `controllers/`: Logic for handling requests
+  - `controllers/`: handling requests
   - `core/`: Managing image uploads
   - `helpers/`: Utility functions
   - `middleware/`: Middlewares for authentication, authorization, etc.
+  - `services/`: handling business logic.
   - `routes/`: Routes for API endpoints, organized by resource (products, reviews, etc.)
   - `uploads/`: Folder to store all uploaded images
   - `utils/`: Helper functions for backend responses, error handling, etc.
@@ -152,4 +153,4 @@ For more details, refer to the `routes` folder.
 ---
 
 
-This README should guide you through setting up, running, and contributing to your E-Commerce Product Review & Wishlist System.
+This README should guide you through setting up, running, the E-Commerce Product Review & Wishlist System.
