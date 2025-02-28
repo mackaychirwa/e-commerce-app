@@ -1,14 +1,6 @@
+import { ProductType } from '@/types/productType';
 import axiosInstance from '../api';
 
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    unit_cost: number;
-    qty: string;
-    category_id: string;
-    imageUrl: string;
-  }
   
   const getProducts = async (token: string) => {
     try {
@@ -65,7 +57,7 @@ const getProduct = async (id: number, token: string) => {
   };
   
 
-const updateProduct = async (id: number,  productData: Product,   token: string ) => {
+const updateProduct = async (id: number,  productData: ProductType,   token: string ) => {
     try {
       console.log(productData);
 

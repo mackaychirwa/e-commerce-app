@@ -1,3 +1,4 @@
+import { Category } from '@/types/categoryType';
 import axiosInstance from '../api';
 /**
  * Fetches all categories for a given tenant domain.
@@ -5,12 +6,7 @@ import axiosInstance from '../api';
  * @returns {Promise} - A promise that resolves to the fetched category data.
  * @throws {Error} - Throws an error if the request fails.
  */
-interface Category {
-    id?: number;
-    name: string;
-    description: string;
-  }
-  
+
   const getCategories = async (token: string) => {
     try {
       const response = await axiosInstance.get('/category', {

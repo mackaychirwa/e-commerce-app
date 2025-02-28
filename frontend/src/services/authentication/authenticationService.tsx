@@ -1,22 +1,7 @@
+import { UserRegisterData } from "@/types/userRegisterData";
 import axiosInstance from "../api";
+import { UserData } from "@/types/userData";
 
-// Define the type for user data
-interface UserData {
-  email: string;
-  password: string;
-  [key: string]: unknown;
-}
-interface UserRegisterData {
-  email: string;
-  password: string;
-  username: string;
-  phoneNumber: number;
-  address: string;
-  city: string;
-  country: string;
-  role_id: number;
-  
-}
 const getUsers = async (token: string)=> {
   try {
     const response = await axiosInstance.get(`/auth/users`,
@@ -57,7 +42,5 @@ const loginUser = async (userData: UserData) => {
     throw error;
   }
 };
-
-// Add more user-related API calls here
 
 export {  loginUser, createUser, getUsers };
