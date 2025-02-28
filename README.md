@@ -152,4 +152,4 @@ For more details, refer to the `routes` folder.
 ---
 
 
-This README should guide you through setting up, running, and contributing to your E-Commerce Product Review & Wishlist System.
+This README should guide you through setting up, running, the E-Commerce Product Review & Wishlist System.
