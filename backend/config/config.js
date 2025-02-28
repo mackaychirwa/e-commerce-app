@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load environment variables
+dotenv.config(); 
 
 export default {
   development: {
