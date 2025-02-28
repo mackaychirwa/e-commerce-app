@@ -74,6 +74,7 @@ This is an E-Commerce Product Review & Wishlist System where users can browse pr
 ```sh
 git clone https://github.com/mackaychirwa/e-commerce-app
 ```
+   Navigate to e-commerce-app folder
 
 ### Backend Setup
 
@@ -151,7 +152,7 @@ Use these credentials to log in as an admin.
 Here are some of the key API endpoints available in the system:
 
 - **API Documentation**:
-  - `GET /api-docs`: API Documentation
+  - `GET /localhost:3000/api-docs`: API Documentation
 
 For more details, refer to the `routes` folder.
 
