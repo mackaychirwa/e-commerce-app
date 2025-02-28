@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /wishlist:
+ * /api/wishlist:
  *   get:
  *     summary: Retrieve a list of all products in the wishlist
  *     description: Fetches the entire wishlist for an authenticated user.
@@ -62,7 +62,7 @@ router.get("/", authenticateUser, index);
 
 /**
  * @swagger
- * /wishlist:
+ * /api/wishlist:
  *   post:
  *     summary: Add a product to the wishlist
  *     description: Adds a new product to the user's wishlist.
@@ -117,7 +117,7 @@ router.post("/", authenticateUser, store);
 
 /**
  * @swagger
- * /wishlist/{id}:
+ * /api/wishlist/{id}:
  *   get:
  *     summary: Retrieve details of a specific product in the wishlist
  *     description: Fetches a specific product's details from the user's wishlist by its ID.

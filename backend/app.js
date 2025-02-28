@@ -14,9 +14,20 @@ const PORT = process.env.PORT || 3000
 // Set up global logger
 global.logger = logger;
 
+// app.use(cors({
+//   origin: "http://localhost:3001", 
+//   credentials: true,  
+// }));
 app.use(cors({
-  origin: "http://localhost:3001", 
-  credentials: true,  
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    callback(null, origin);
+  },
+  methods: ["*"],
+  allowedHeaders: ["*"],
+  exposedHeaders: ["*"],
+  credentials: true,
+  maxAge: 0,
 }));
 app.use(express.json());
 

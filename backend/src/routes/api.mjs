@@ -20,7 +20,7 @@ router.use("/review", reviewRouter);
 router.use("/wishlist", wishlistRouter);
 
 router.all("*", (req, res) => {
-    res.status(404).json({ message: "You need to login to use all routes" });
+    res.status(404).json({ message: "You need to login to use all routes || unknown route" });
 });
 
 export default router;

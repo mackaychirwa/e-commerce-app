@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /review:
+ * /api/review:
  *   get:
  *     summary: Get all reviews
  *     tags: [Review]
@@ -39,7 +39,7 @@ router.get("/", authenticateUser, index);
 
 /**
  * @swagger
- * /review/{id}:
+ * /api/review/{id}:
  *   get:
  *     summary: Get a review by ID
  *     tags: [Review]
@@ -79,7 +79,7 @@ router.get("/:id", authenticateUser, show);
 
 /**
  * @swagger
- * /review:
+ * /api/review:
  *   post:
  *     summary: Create a new review
  *     tags: [Review]
@@ -111,7 +111,7 @@ router.post("/", authenticateUser, store);
 
 /**
  * @swagger
- * /review/{id}:
+ * /api/review/{id}:
  *   put:
  *     summary: Update a review by ID
  *     tags: [Review]
@@ -149,7 +149,7 @@ router.put("/:id", authenticateUser, update);
 
 /**
  * @swagger
- * /review/{id}:
+ * /api/review/{id}:
  *   delete:
  *     summary: Delete a review by ID
  *     tags: [Review]
@@ -172,7 +172,7 @@ router.delete("/:id", authenticateUser, destroy);
 
 /**
  * @swagger
- * /review/replyReview:
+ * /api/review/replyReview:
  *   post:
  *     summary: Reply to a review
  *     tags: [Review]
@@ -208,7 +208,7 @@ router.post("/replyReview", authenticateUser, replyReview);
 
 /**
  * @swagger
- * /review/replyReview/{id}:
+ * /api/review/replyReview/{id}:
  *   get:
  *     summary: Get a reply to a review by ID
  *     tags: [Review]

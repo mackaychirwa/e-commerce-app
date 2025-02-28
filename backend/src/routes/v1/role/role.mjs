@@ -6,7 +6,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /role:
+ * /api/role:
  *   get:
  *     summary: Get all roles
  *     tags: [Role]
@@ -36,7 +36,7 @@ router.get("/", authenticateUser, index);
 
 /**
  * @swagger
- * /role/{id}:
+ * /api/role/{id}:
  *   get:
  *     summary: Get a role by ID
  *     tags: [Role]
@@ -73,7 +73,7 @@ router.get("/:id", authenticateUser, show);
 
 /**
  * @swagger
- * /role:
+ * /api/role:
  *   post:
  *     summary: Create a new role
  *     tags: [Role]
@@ -105,7 +105,7 @@ router.post("/", authenticateUser, store);
 
 /**
  * @swagger
- * /role/{id}:
+ * /api/role/{id}:
  *   put:
  *     summary: Update a role by ID
  *     tags: [Role]
@@ -143,7 +143,7 @@ router.put("/:id", authenticateUser, update);
 
 /**
  * @swagger
- * /role/{id}:
+ * /api/role/{id}:
  *   delete:
  *     summary: Delete a role by ID
  *     tags: [Role]

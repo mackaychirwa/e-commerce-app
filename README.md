@@ -1,4 +1,4 @@
-Here's a structured README for your E-Commerce Product Review & Wishlist System:
+Here's a structured README for E-Commerce Product Review & Wishlist System:
 
 ---
 
@@ -80,7 +80,7 @@ This is an E-Commerce Product Review & Wishlist System where users can browse pr
    ```
 
 2. **Configure Database**:
-   In the `src/config/database.js` file, set up your database connection details.
+   In the `src/config/database.js` file, set up your database connection details. create a new database named `ecommerce` in your PostgreSQL as this will be used for all database operations. if changes are made to the database please make sure you also change in `src/config/database.js` and in root directory `config/config.json`
 
 3. **Running Migrations & Seeder**:
    After setting up the database configuration, run the migrations and seeders to initialize the database.

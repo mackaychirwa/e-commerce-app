@@ -8,7 +8,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /product:
+ * /api/product:
  *   get:
  *     summary: Get all products
  *     tags: [Product]
@@ -47,7 +47,7 @@ router.get("/", authenticateUser, index);
 
 /**
  * @swagger
- * /product/{id}:
+ * /api/product/{id}:
  *   get:
  *     summary: Get a product by ID
  *     tags: [Product]
@@ -92,7 +92,7 @@ router.get("/", authenticateUser, index);
 router.get("/:id", authenticateUser, show);
 /**
  * @swagger
- * /product:
+ * /api/product:
  *   post:
  *     summary: Create a new product
  *     tags: [Product]
@@ -141,7 +141,7 @@ router.post("/", authenticateUser, upload.single("image"), store);
 
 /**
  * @swagger
- * /product/{id}:
+ * /api/product/{id}:
  *   put:
  *     summary: Update a product by ID
  *     tags: [Product]
@@ -188,7 +188,7 @@ router.put("/:id", authenticateUser, update);
 
 /**
  * @swagger
- * /product/{id}:
+ * /api/product/{id}:
  *   delete:
  *     summary: Delete a product by ID
  *     tags: [Product]

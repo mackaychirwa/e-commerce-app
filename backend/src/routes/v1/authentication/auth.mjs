@@ -13,7 +13,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *   post:
  *     summary: User login
  *     tags: [Authentication]
@@ -29,7 +29,7 @@ const router = express.Router();
  *             properties:
  *               email:
  *                 type: string
- *                 example: user@example.com
+ *                 example: user@system.com
  *               password:
  *                 type: string
  *                 example: password123
@@ -43,7 +43,7 @@ router.post('/login', emailToLowerCase, userLogin);
 
 /**
  * @swagger
- * /auth/register:
+ * /api/auth/register:
  *   post:
  *     summary: User registration
  *     tags: [Authentication]
@@ -57,6 +57,10 @@ router.post('/login', emailToLowerCase, userLogin);
  *               - username
  *               - email
  *               - password
+ *               - phoneNumber
+ *               - address
+ *               - city
+ *               - country
  *               - role_id
  *             properties:
  *               username:
@@ -64,10 +68,22 @@ router.post('/login', emailToLowerCase, userLogin);
  *                 example: johndoe
  *               email:
  *                 type: string
- *                 example: user@example.com
+ *                 example: user@system.com
  *               password:
  *                 type: string
  *                 example: password123
+ *               phoneNumber:
+ *                 type: string
+ *                 example: "881215487"
+ *               address:
+ *                 type: string
+ *                 example: "Chilobwe"
+ *               city:
+ *                 type: string
+ *                 example: "Blantyre"
+ *               country:
+ *                 type: string
+ *                 example: "Malawi"
  *               role_id:
  *                 type: integer
  *                 example: 2
@@ -83,6 +99,7 @@ router.post('/login', emailToLowerCase, userLogin);
  */
 
 router.post('/register', emailToLowerCase, userRegistration);
+
 
 router.get("/users", authenticateUser, index);  
 
