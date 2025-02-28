@@ -14,6 +14,7 @@ Here's a structured README for E-Commerce Product Review & Wishlist System:
     - [Backend Folder Structure](#backend-folder-structure)
     - [Frontend Folder Structure](#frontend-folder-structure)
   - [Setup Instructions](#setup-instructions)
+    - [Clone the Repository](#clone-the-repository)
     - [Backend Setup](#backend-setup)
     - [Frontend Setup](#frontend-setup)
   - [Running Migrations \& Seeder](#running-migrations--seeder)
@@ -26,7 +27,6 @@ Here's a structured README for E-Commerce Product Review & Wishlist System:
 
 This is an E-Commerce Product Review & Wishlist System where users can browse products, submit reviews, and manage a wishlist. Admins are able to manage products, reviews, and wishlists through an admin interface.
 
----
 
 ## Tech Stack
 
@@ -69,6 +69,11 @@ This is an E-Commerce Product Review & Wishlist System where users can browse pr
 ---
 
 ## Setup Instructions
+
+### Clone the Repository
+```sh
+git clone https://github.com/mackaychirwa/e-commerce-app
+```
 
 ### Backend Setup
 

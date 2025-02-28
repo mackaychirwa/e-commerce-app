@@ -36,23 +36,38 @@ app.use(cookieParser());
 //
 app.use('/uploads', express.static(path.join(process.cwd(), 'src/uploads')));
 app.use('/api', allRoutes);
+
 const options = {
   definition: {
     openapi: '3.0.0',
     info: {
       title: 'Ecommerce API',
       version: '1.0.0',
-      description: 'API for managing products, categories, users and reviews.',
+      description: 'API for managing products, categories, users, and reviews.',
     },
     servers: [
       {
         url: 'http://localhost:3000',
         description: 'Development server'
       }
+    ],
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT' 
+        }
+      }
+    },
+    security: [
+      {
+        BearerAuth: [] 
+      }
     ]
   },
   apis: ['./src/routes/v1/**/*.mjs'],
-}
+};
 
 const swaggerSpec = swaggerJSDoc(options);
 

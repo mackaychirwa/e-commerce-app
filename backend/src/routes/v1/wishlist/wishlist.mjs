@@ -10,10 +10,9 @@ const router = express.Router();
  *   get:
  *     summary: Retrieve a list of all products in the wishlist
  *     description: Fetches the entire wishlist for an authenticated user.
- *     tags:
- *       - Wishlist
+ *     tags: [Wishlist]
  *     security:
- *       - bearerAuth: []  # Authentication required using Bearer Token
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: List of products in the wishlist
@@ -66,10 +65,9 @@ router.get("/", authenticateUser, index);
  *   post:
  *     summary: Add a product to the wishlist
  *     description: Adds a new product to the user's wishlist.
- *     tags:
- *       - Wishlist
+ *     tags: [Wishlist]
  *     security:
- *       - bearerAuth: []  # Authentication required using Bearer Token
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -121,8 +119,9 @@ router.post("/", authenticateUser, store);
  *   get:
  *     summary: Retrieve details of a specific product in the wishlist
  *     description: Fetches a specific product's details from the user's wishlist by its ID.
- *     tags:
- *       - Wishlist
+ *     tags: [Wishlist]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -130,8 +129,6 @@ router.post("/", authenticateUser, store);
  *         description: ID of the wishlist entry to fetch
  *         schema:
  *           type: integer
- *     security:
- *       - bearerAuth: []  # Authentication required using Bearer Token
  *     responses:
  *       200:
  *         description: Details of the wishlist product
