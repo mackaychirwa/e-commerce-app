@@ -1,5 +1,7 @@
 import express from 'express';
 import expressListEndpoints from 'express-list-endpoints';
+import dotenv from 'dotenv';
+dotenv.config();
 import logger from './src/logs/logger.js';
 import { connectDB } from './src/config/database.js';
 import allRoutes from "./src/routes/api.mjs"
