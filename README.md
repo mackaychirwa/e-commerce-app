@@ -86,8 +86,8 @@ git clone https://github.com/mackaychirwa/e-commerce-app
    ```
 
 2. **Configure Database**:
-   In the `src/config/database.js` file, set up your database connection details. create a new database named `ecommerce` in your PostgreSQL as this will be used for all database operations. if changes are made to the database please make sure you also change in `src/config/database.js` and in root directory `config/config.json`
-
+   In the root directory you should find a .env.example copy this file and create a .env in the `.env` file, set up your database connection details. create a new database named `ecommerce` in your PostgreSQL as this will be used for all database operations. if changes are made to the database please make sure you also change in `.env` file. this includes the actual database name.
+   
 3. **Running Migrations & Seeder**:
    After setting up the database configuration, run the migrations and seeders to initialize the database.
    ```bash
